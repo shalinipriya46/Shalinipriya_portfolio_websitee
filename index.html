@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shalini Priya. R | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#2f2f31;--muted:#626262;--line:#dedede;--accent:#6266f1;--bg:#fff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    .dot{position:fixed;top:106px;left:35px;width:18px;height:18px;background:var(--accent);border-radius:50%;z-index:90}
+    .nav-pill{position:fixed;top:104px;left:50%;transform:translateX(-50%);height:58px;padding:0 10px;border:1px solid #ddd;border-radius:999px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);display:flex;align-items:center;gap:24px;z-index:100;box-shadow:0 8px 30px rgba(0,0,0,.05)}
+    .nav-pill img{width:42px;height:42px;object-fit:cover;border-radius:50%;border:4px solid #eee}
+    .nav-pill nav{display:flex;gap:24px;color:#555;font-size:16px;align-items:center}
+    .contact-btn{background:#2d2d2f;color:#fff;padding:13px 30px;border-radius:999px;font-weight:700}
+    .hero{height:230vh;position:relative;background:#fff}
+    .hero-stage{height:100vh;position:sticky;top:0;overflow:hidden;perspective:1200px;display:flex;align-items:center;justify-content:center;padding-top:58px}
+    .hero-layout{width:min(1120px,86vw);display:grid;grid-template-columns:320px 330px 320px;gap:24px;align-items:center;justify-content:center;margin-top:38px;position:relative}
+    .hero-copy{z-index:2;will-change:transform,opacity}
+    .left-copy{text-align:left;justify-self:end;width:400px}
+    .right-copy{text-align:center;justify-self:start;width:320px}
+    .hero-copy .name{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.05em;line-height:1;margin-bottom:12px}
+    .hero-copy h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(86px,7vw,118px);font-weight:400;letter-spacing:.01em;line-height:.82;white-space:nowrap}
+    .right-copy p{font-size:18px;line-height:1.45;color:#555;margin:18px auto 0;max-width:290px}
+    .hero-photo{width:330px;height:460px;border-radius:22px;overflow:hidden;background:#ddd;box-shadow:0 20px 80px rgba(0,0,0,.10);transform-style:preserve-3d;will-change:transform,opacity;z-index:5;justify-self:center}
+    .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+    .availability{position:absolute;top:92px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.92);border:1px solid #ddd;border-radius:999px;padding:9px 16px;z-index:9;opacity:0;transition:.35s ease;box-shadow:0 10px 35px rgba(0,0,0,.06)}
+    .availability img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+    .availability i{width:10px;height:10px;border-radius:50%;background:#24e178}
+    .availability.show{opacity:1}
+    .bottom-toggle{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:40px;height:20px;border-radius:999px;background:var(--accent);display:flex;align-items:center;padding:3px;opacity:.95}
+    .bottom-toggle span{width:14px;height:14px;background:#fff;border-radius:50%;display:block}
+    .nav-theme-toggle{display:none}
+    .section-label{font-size:14px;font-weight:900;color:var(--accent);letter-spacing:.16em;margin-bottom:18px}
+    .about-section,.project-section,.experience-section,.skills-section,.education-section,.contact-section{width:min(1120px,86%);margin:auto;padding:105px 0}
+    .about-section{padding-top:120px;display:grid;grid-template-columns:1fr 360px;gap:70px;align-items:center}
+    .about-copy h2,.services h2,.project-section h2,.experience-section h2,.skills-section h2,.education-section h2,.contact-section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(58px,6.8vw,98px);font-weight:400;letter-spacing:.02em;line-height:.9}
+    .about-copy p{font-size:21px;line-height:1.65;color:#555;max-width:780px;margin-top:18px}
+    .about-static-photo{height:500px;border-radius:28px;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.10);opacity:0;transform:translateY(40px);transition:.8s ease}
+    .about-static-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+    .about-section.active .about-static-photo{opacity:1;transform:translateY(0)}
+    .resume-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px}
+    .resume-actions a{background:#2d2d2f;color:#fff;padding:16px 26px;border-radius:999px;font-weight:800}
+    .resume-actions a:nth-child(2){background:#fff;color:#2d2d2f;border:1px solid #ccc}
+    .services{min-height:110vh;padding:105px 0 90px;width:min(1120px,86%);margin:auto;display:grid;grid-template-columns:1fr .62fr;gap:90px;align-items:start}
+    .services-text{position:sticky;top:120px}
+    .intro{font-size:21px;line-height:1.55;color:#555;max-width:620px;margin:28px 0 44px}
+    .service-list details{border-bottom:1px solid var(--line);padding:22px 0}
+    .service-list summary{list-style:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.02em;display:flex;justify-content:space-between}
+    .service-list summary::-webkit-details-marker{display:none}
+    .service-list summary:after{content:'+';font-family:Inter;font-size:30px}
+    .service-list details[open] summary:after{content:'−'}
+    .service-list p{color:#666;font-size:17px;line-height:1.7;margin-top:10px}
+    .tilt-card{position:sticky;top:135px;width:100%;height:min(680px,calc(100vh - 170px));border-radius:28px;overflow:hidden;box-shadow:0 26px 80px rgba(0,0,0,.13);transform-origin:center center;will-change:transform,opacity;backface-visibility:hidden;background:#fff;display:flex;align-items:center;justify-content:center}
+    .tilt-card img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block;background:#fff}
+    .project-card,.exp-grid article,.edu-list article{border:1px solid var(--line);border-radius:30px;padding:32px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.05)}
+    .project-card{margin-top:28px}
+    .project-card h3{font-size:34px;margin-bottom:15px}
+    .project-card p,.exp-grid p,.edu-list p{font-size:17px;color:#666;line-height:1.65}
+    .tags,.skill-marquee{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .tags span,.skill-marquee span{border:1px solid var(--line);border-radius:999px;padding:12px 18px;background:#fff}
+    .exp-grid,.edu-list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+    .exp-grid span,.edu-list span{color:var(--accent);font-weight:900}
+    .exp-grid h3,.edu-list h3{font-size:24px;margin:10px 0}
+    .contact-section{display:grid;gap:16px}
+    .contact-section a{font-size:26px;color:var(--accent);font-weight:900;width:max-content}
+    footer{text-align:center;padding:40px;color:#777}
+    .reveal{opacity:0;transform:translateY(35px);transition:1s ease}
+    .reveal.active{opacity:1;transform:translateY(0)}
+    @media(max-width:1100px){.hero-layout{grid-template-columns:280px 300px 280px;gap:20px}.hero-photo{width:300px;height:430px}.hero-copy h1{font-size:88px}}
+    @media(max-width:900px){.dot{display:none}.nav-pill{top:18px;width:92%;justify-content:space-between}.nav-pill nav{display:none}.hero{height:auto;min-height:100vh;padding:120px 22px 70px}.hero-stage{height:auto;position:relative;overflow:visible;text-align:center;padding-top:0}.hero-layout{display:block;width:100%;margin-top:0}.hero-layout>*{position:relative!important;top:auto!important;left:auto!important;right:auto!important;margin:18px auto!important;transform:none;opacity:1!important}.hero-copy,.left-copy,.right-copy{text-align:center!important;width:auto}.hero-photo{width:min(360px,88vw);height:500px}.availability{display:none!important}.hero-stage>.bottom-toggle{display:none!important}.nav-theme-toggle{display:flex!important;position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none;margin-left:auto;z-index:101!important;flex-shrink:0}.about-section{display:block}.about-static-photo{display:none}.services{display:block}.services-text,.tilt-card{position:relative;top:auto}.tilt-card{margin-top:45px;height:auto;aspect-ratio:2/3;max-height:none}.exp-grid,.edu-list{grid-template-columns:1fr}.contact-section a{font-size:20px;width:auto}.about-section,.project-section,.experience-section,.skills-section,.education-section,.contact-section{padding:75px 0}.hero-copy h1{font-size:74px}}
+
+    /* THEME TOGGLE: default = clean black & white, ON = pastel pink/lavender */
+    body{
+      transition: background .45s ease, color .45s ease;
+    }
+    body.pastel-theme{
+      --ink:#5d4a78;
+      --muted:#7b6b8f;
+      --line:#eadcf6;
+      --accent:#c9a7ff;
+      --bg:#fff4fb;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255,205,229,.75), transparent 30%),
+        radial-gradient(circle at 82% 22%, rgba(213,196,255,.72), transparent 32%),
+        linear-gradient(135deg,#fff7fb 0%,#f7efff 48%,#fff1f7 100%);
+      color:var(--ink);
+    }
+    body.pastel-theme .hero,
+    body.pastel-theme .hero-stage{
+      background:transparent;
+    }
+    body.pastel-theme .nav-pill{
+      background:rgba(255,244,252,.82);
+      border-color:#eadcf6;
+      box-shadow:0 12px 45px rgba(202,167,255,.22);
+    }
+    body.pastel-theme .nav-pill nav{
+      color:#725f88;
+    }
+    body.pastel-theme .contact-btn,
+    body.pastel-theme .resume-actions a:first-child{
+      background:linear-gradient(135deg,#f3a8cf,#b9a7ff);
+      color:#fff;
+    }
+    body.pastel-theme .hero-copy h1,
+    body.pastel-theme .hero-copy .name,
+    body.pastel-theme h2,
+    body.pastel-theme h3{
+      color:#5d4a78;
+    }
+    body.pastel-theme .right-copy p,
+    body.pastel-theme .about-copy p,
+    body.pastel-theme .intro,
+    body.pastel-theme .project-card p,
+    body.pastel-theme .exp-grid p,
+    body.pastel-theme .edu-list p{
+      color:#7b6b8f;
+    }
+    body.pastel-theme .hero-photo,
+    body.pastel-theme .about-static-photo,
+    body.pastel-theme .tilt-card{
+      box-shadow:0 28px 90px rgba(202,167,255,.30);
+    }
+    body.pastel-theme .project-card,
+    body.pastel-theme .exp-grid article,
+    body.pastel-theme .edu-list article,
+    body.pastel-theme .tags span,
+    body.pastel-theme .skill-marquee span{
+      background:rgba(255,255,255,.72);
+      border-color:#eadcf6;
+    }
+    body.pastel-theme .bottom-toggle{
+      background:linear-gradient(135deg,#f3a8cf,#b9a7ff);
+      box-shadow:0 12px 30px rgba(202,167,255,.45);
+    }
+    body.pastel-theme .bottom-toggle span{
+      transform:translateX(20px);
+    }
+    .bottom-toggle{
+      cursor:pointer;
+      border:0;
+      transition:background .35s ease, box-shadow .35s ease;
+    }
+    .bottom-toggle span{
+      transition:transform .35s ease;
+    }
+
+  
+    /* Removed the availability pill that was overlapping behind the fixed header navigation */
+    .availability{display:none!important}
+
+/* Graphic designer mode: decorations exist only while the original theme toggle is ON. */
+.creative-decor{position:fixed;inset:0;z-index:45;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;overflow:hidden}
+body.pastel-theme .creative-decor{opacity:1;visibility:visible}
+.creative-sticker{position:absolute;width:clamp(46px,6.5vw,98px);filter:drop-shadow(0 8px 12px rgba(126,83,164,.15));animation:creative-float 5s ease-in-out infinite;transform-origin:center}
+.creative-sticker svg{display:block;width:100%;height:auto}
+.creative-sticker:nth-child(1){top:21%;left:2%;transform:rotate(-12deg)}
+.creative-sticker:nth-child(2){top:28%;right:3%;animation-delay:-1.3s}
+.creative-sticker:nth-child(3){bottom:13%;left:3%;animation-delay:-2.5s}
+.creative-sticker:nth-child(4){bottom:16%;right:4%;animation-delay:-.8s}
+.creative-sticker:nth-child(5){top:52%;right:1%;width:58px;animation-delay:-3.5s}
+.creative-sticker:nth-child(6){top:55%;left:1%;width:52px;animation-delay:-2s}
+@keyframes creative-float{0%,100%{translate:0 0;rotate:-4deg}50%{translate:0 -16px;rotate:7deg}}
+body.pastel-theme .hero-photo{outline:7px solid rgba(255,201,228,.65);outline-offset:7px}
+body.pastel-theme .project-card,body.pastel-theme .exp-grid article,body.pastel-theme .edu-list article{box-shadow:0 14px 35px rgba(170,125,205,.12);transition:box-shadow .3s,transform .3s}
+body.pastel-theme .project-card:hover{box-shadow:0 20px 48px rgba(170,125,205,.22)}
+body.pastel-theme .section-label{color:#b36bb0}
+body.pastel-theme .dot{background:#ff9dc8;box-shadow:0 0 0 9px #ffe4f1}
+body.pastel-theme .bottom-toggle span{transform:translateX(20px)}
+.bottom-toggle{appearance:none;min-width:40px;min-height:20px}
+.bottom-toggle:focus-visible{outline:3px solid #a88bef;outline-offset:5px}
+@media(max-width:900px){.creative-sticker{width:40px!important;opacity:.8}.creative-sticker:nth-child(1){top:22%;left:1%}.creative-sticker:nth-child(2){top:35%;right:1%}.creative-sticker:nth-child(3){bottom:22%;left:1%}.creative-sticker:nth-child(4){bottom:28%;right:1%}.creative-sticker:nth-child(n+5){display:none}}
+@media(prefers-reduced-motion:reduce){.creative-sticker{animation:none}}
+
+/* Section spacing refinement: applies to both portfolio modes */
+@media (min-width:901px){
+  .hero{height:175vh}
+  .about-section,.project-section,.experience-section,.skills-section,.education-section,.contact-section{padding-top:64px;padding-bottom:64px}
+  .about-section{padding-top:80px}
+  .services{min-height:0;padding-top:64px;padding-bottom:64px}
+}
+@media (max-width:900px){
+  .about-section,.project-section,.experience-section,.skills-section,.education-section,.contact-section{padding-top:54px;padding-bottom:54px}
+  .services{min-height:0;padding-top:54px;padding-bottom:54px}
+}
+@media (max-width:600px){
+  .about-section,.project-section,.experience-section,.skills-section,.education-section,.contact-section{padding-top:42px;padding-bottom:42px}
+  .services{padding-top:42px;padding-bottom:42px}
+}
+
+/* Creative-mode-only enhancements: no content or professional styling changes */
+body.pastel-theme .nav-pill,body.pastel-theme .hero-photo,body.pastel-theme .service-card,body.pastel-theme .project-card,body.pastel-theme article,body.pastel-theme .contact-btn{transition:box-shadow .3s ease,transform .3s ease,filter .3s ease,border-color .3s ease}
+body.pastel-theme .nav-pill:hover,body.pastel-theme .hero-photo:hover,body.pastel-theme .service-card:hover,body.pastel-theme .project-card:hover,body.pastel-theme article:hover{box-shadow:0 12px 36px rgba(238,108,190,.24),0 0 24px rgba(177,135,255,.32)!important;filter:saturate(1.08)}
+body.pastel-theme .contact-btn:hover,body.pastel-theme a:hover{filter:drop-shadow(0 0 9px rgba(244,113,195,.55))}
+.creative-decoration{display:none;pointer-events:none;position:fixed;inset:0;z-index:12;overflow:hidden}
+body.pastel-theme .creative-decoration{display:block}
+.creative-doodle{position:absolute;font-size:clamp(20px,3vw,38px);opacity:.75;animation:doodleFloat 5s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(170,100,210,.16))}
+.creative-doodle:nth-child(1){left:4%;top:25%;animation-delay:-1s}.creative-doodle:nth-child(2){right:5%;top:35%;animation-delay:-3s}.creative-doodle:nth-child(3){left:8%;bottom:20%;animation-delay:-2s}.creative-doodle:nth-child(4){right:8%;bottom:18%;animation-delay:-4s}
+@keyframes doodleFloat{0%,100%{transform:translateY(0) rotate(-9deg)}50%{transform:translateY(-17px) rotate(11deg)}}
+.pixel-walker{display:none;position:fixed;left:0;bottom:14px;z-index:115;pointer-events:none;transform:translate3d(0,0,0);will-change:transform;transition:transform .09s linear;filter:drop-shadow(0 5px 1px rgba(90,60,120,.18))}
+body.pastel-theme .pixel-walker{display:block}
+.pixel-character{width:68px;height:94px;position:relative;transform-origin:center bottom;image-rendering:pixelated}
+.pixel-walker.walk-back .pixel-character{transform:scaleX(-1)}
+.pixel-character svg{width:68px;height:94px;display:block;image-rendering:pixelated}
+.pixel-walker.walking .pixel-character{animation:pixelBounce .24s steps(2) infinite}
+@keyframes pixelBounce{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.pixel-sparkle{position:absolute;top:-13px;right:-12px;color:#f3a2d4;font-size:21px;animation:twinkle 1.3s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.2;transform:scale(.65) rotate(35deg)}}
+@media(max-width:600px){.pixel-character,.pixel-character svg{width:48px;height:67px}.pixel-walker{bottom:8px}.creative-doodle{opacity:.45}}
+@media(prefers-reduced-motion:reduce){.creative-doodle,.pixel-character,.pixel-sparkle{animation:none!important}.pixel-walker{transition:none}}
+
+/* Small smooth vector chameleon replaces the former pixel character. */
+.pixel-character,.pixel-character svg{width:46px!important;height:36px!important;image-rendering:auto!important}
+.pixel-walker{bottom:12px!important;filter:drop-shadow(0 2px 2px rgba(70,120,110,.18))}
+.pixel-walker.walking .pixel-character{animation:chameleonStep .32s ease-in-out infinite!important}
+@keyframes chameleonStep{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -2px;rotate:-3deg}}
+.pixel-sparkle{font-size:12px!important;top:-7px!important;right:-6px!important}
+@media(max-width:600px){.pixel-character,.pixel-character svg{width:34px!important;height:27px!important}}
+@media(prefers-reduced-motion:reduce){.pixel-walker.walking .pixel-character{animation:none!important}}
+
+/* Illustrator portrait appears only when creative mode is ON */
+body.pastel-theme .hero-photo img, body.pastel-theme .about-static-photo img {object-fit:contain;object-position:center bottom;}
+/* Transparent illustration only in creative mode */
+body.pastel-theme .hero-photo,body.pastel-theme .about-static-photo {background:transparent!important;}
+body.pastel-theme .hero-photo {box-shadow:none!important;}
+body.pastel-theme .hero-photo img,body.pastel-theme .about-static-photo img {background:transparent!important;object-fit:contain!important;object-position:center bottom!important;}
+
+/* Uniform four-icon contact row, shared by both portfolio modes */
+.contact-social-row{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2.5vw,28px);flex-wrap:nowrap;width:100%;margin:22px auto 0}
+.contact-section .social-icon-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;flex:0 0 auto;width:clamp(58px,12vw,92px);min-width:0;min-height:72px;padding:12px 4px;border-radius:17px;border:1px solid rgba(140,120,170,.23);background:rgba(255,255,255,.16);color:var(--accent);font-size:12px;font-weight:700;line-height:1.2;text-align:center;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.contact-section .social-icon-link svg{display:block;width:23px;height:23px;flex:none}
+.contact-section .social-icon-link:hover,.contact-section .social-icon-link:focus-visible{transform:translateY(-5px);box-shadow:0 8px 24px rgba(163,108,204,.24);background:rgba(255,255,255,.35);outline-offset:3px}
+body.pastel-theme .contact-section .social-icon-link:hover{box-shadow:0 0 18px rgba(244,113,195,.45),0 8px 24px rgba(177,135,255,.25)}
+@media(max-width:420px){.contact-social-row{gap:7px}.contact-section .social-icon-link{width:clamp(57px,20vw,75px);padding:10px 2px;font-size:11px}}
+body:not(.pastel-theme) .on-portfolio-button{display:none!important}
+body.pastel-theme .on-portfolio-button{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d98cc9,#a28bef);color:#fff;border:0;box-shadow:0 7px 22px rgba(178,126,216,.3)}
+</style>
+</head>
+<body>
+  <div class="creative-decor" aria-hidden="true"><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 5 62 35 95 35 70 56 80 91 50 72 20 91 30 56 5 35 38 35Z" fill="#ffd36e" stroke="#b887d3" stroke-width="4" stroke-linejoin="round"/><circle cx="39" cy="50" r="3" fill="#6b5182"/><circle cx="61" cy="50" r="3" fill="#6b5182"/><path d="M43 61Q50 67 57 61" fill="none" stroke="#6b5182" stroke-width="3" stroke-linecap="round"/></svg></div><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g stroke="#b18aca" stroke-width="3"><ellipse cx="50" cy="27" rx="17" ry="24" fill="#ffc5e4"/><ellipse cx="50" cy="73" rx="17" ry="24" fill="#ffc5e4"/><ellipse cx="27" cy="50" rx="24" ry="17" fill="#ffc5e4"/><ellipse cx="73" cy="50" rx="24" ry="17" fill="#ffc5e4"/></g><circle cx="50" cy="50" r="17" fill="#ffe17c"/><circle cx="44" cy="47" r="2.5" fill="#795e91"/><circle cx="56" cy="47" r="2.5" fill="#795e91"/><path d="M44 55Q50 61 56 55" fill="none" stroke="#795e91" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M18 65 60 16Q68 8 77 18L84 25Q92 34 84 42L36 84 13 89Z" fill="#bda6ff" stroke="#735f9b" stroke-width="3"/><path d="M18 65 36 84 13 89Z" fill="#ffe1a9"/><path d="M13 89 18 76 26 84Z" fill="#65526f"/><path d="M58 19 81 44" stroke="#fff" stroke-width="5"/></svg></div><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="20" width="72" height="60" rx="14" fill="#c9f1e2" stroke="#70b7a8" stroke-width="4"/><circle cx="37" cy="45" r="8" fill="#ffb2d5"/><path d="m25 68 17-17 12 12 14-19 12 24Z" fill="#b6a0f3"/><path d="M29 13v14M71 13v14" stroke="#70b7a8" stroke-width="5" stroke-linecap="round"/></svg></div><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 6 58 36 88 22 70 50 94 68 63 67 50 95 38 67 7 68 30 50 12 22 42 36Z" fill="#ffc3a6" stroke="#e6a1b8" stroke-width="3"/><circle cx="50" cy="50" r="12" fill="#fff4cd"/></svg></div><div class="creative-sticker"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M25 21C8 21 7 44 24 50 5 58 16 84 35 72 46 96 69 86 66 68 92 70 97 43 74 39 77 15 47 7 42 30 38 24 32 21 25 21Z" fill="#cbb9ff" stroke="#9b86d5" stroke-width="3"/><path d="M36 50 48 62 70 36" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+  <header class="nav-pill">
+    <img src="embedded-photo.jpg" alt="Shalini Priya" />
+    <nav><a href="#home">Home</a><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a></nav>
+    <button class="bottom-toggle nav-theme-toggle" id="navThemeToggle" aria-label="Switch to graphic designer mode" aria-pressed="false"><span></span></button>
+    <a class="contact-btn" href="#contact">Contact</a>
+  </header>
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-stage">
+        <div class="availability"><img src="embedded-photo.jpg" alt=""><span>Available for work</span><i></i></div>
+        <div class="hero-layout">
+          <div class="hero-copy left-copy"><p class="name">SHALINI PRIYA. R</p><h1>WEB</h1><h1>DEVELOPER</h1></div>
+          <div class="hero-photo" id="heroPhoto"><img src="embedded-photo.jpg" alt="Shalini Priya"></div>
+          <div class="hero-copy right-copy"><h1>GRAPHIC</h1><h1>DESIGNER</h1><p>SEO Analyst</p></div>
+        </div>
+        <button class="bottom-toggle" id="themeToggle" aria-label="Switch to graphic designer mode" aria-pressed="false"><span></span></button>
+      </div>
+    </section>
+    <section id="about" class="about-section reveal">
+      <div class="about-copy"><div class="section-label">ABOUT ME</div><h2>Creative Developer With A Design Mindset</h2><p>Creative and detail-oriented Web Developer, Graphic Designer, and SEO Analyst with experience in website development, visual branding, and digital optimization. I create responsive websites, impactful graphic designs, and SEO-driven digital solutions that improve user experience and online visibility.</p><div class="resume-actions"><a href="SHALINI%20PRIYA%20R%20%28Resume%29.pdf" target="_blank" rel="noopener">View Resume</a><a href="SHALINI%20PRIYA%20R%20%28Resume%29.pdf" download="Shalini_Priya_Resume.pdf">Download Resume</a><a class="on-portfolio-button" href="SHALINI%20PRIYA%20R%20%28Portfolio%29.pdf" target="_blank" rel="noopener">View Portfolio</a></div></div>
+      <div class="about-static-photo"><img src="embedded-photo.jpg" alt="Shalini Priya"></div>
+    </section>
+    <section class="services"><div class="services-text reveal"><div class="section-label">SERVICES</div><h2>WHAT I CAN DO FOR YOU</h2><div class="service-list"><details open><summary>1. WEB DESIGN</summary><p>Responsive, clean and user-friendly website layouts using HTML, CSS, Java and UI/UX basics.</p></details><details><summary>2. GRAPHIC DESIGN</summary><p>Social media creatives, banners, branding materials and marketing designs using Photoshop, Illustrator and CorelDRAW.</p></details><details><summary>3. SEO OPTIMIZATION</summary><p>Keyword research, on-page SEO, website analysis, content optimization and website performance improvement.</p></details></div></div><div class="tilt-card" id="serviceCard"><img src="embedded-photo.png" alt="Web design, graphic design and SEO optimization service image"></div></section>
+    <section class="experience-section reveal"><div class="section-label">EXPERIENCE</div><h2>PROFESSIONAL EXPERIENCE</h2><div class="exp-grid"><article><span>Jan 2026 – Jul 2026</span><h3>Baptist Digitek Pvt Ltd</h3><p>Web Developer | Graphic Designer | SEO Analyst</p><p>Designing responsive websites, creating digital creatives, managing SEO optimization and improving website performance.</p></article><article><span>10/2024 – 11/2024</span><h3>Futurecalls Technology Pvt Ltd</h3><p>Web Designing Intern</p><p>Contributed to responsive website design projects, UI improvements and web content management.</p></article><article><span>06/2023 – 07/2023</span><h3>Victory Vision Software Development Company</h3><p>Web Designing Intern</p><p>Assisted in website design, front-end development and improved webpage layouts.</p></article></div></section>
+    <section id="projects" class="project-section reveal"><div class="section-label">FEATURED PROJECT</div><h2>STUDENT ENGAGEMENT PREDICTION</h2><div class="project-card"><h3>Classroom Engagement Using Image Processing</h3><p>Developed a real-time student engagement monitoring system using facial expression analysis, eye-gaze tracking, head-pose estimation and deep learning models to classify engagement levels from classroom video datasets.</p><div class="tags"><span>Image Processing</span><span>Deep Learning</span><span>Facial Analysis</span><span>Eye-Gaze Tracking</span></div></div></section>
+    <section id="skills" class="skills-section reveal"><div class="section-label">SKILLS</div><h2>TOOLS & TECHNICAL SKILLS</h2><div class="skill-marquee"><span>HTML</span><span>CSS</span><span>Java</span><span>Responsive Web Design</span><span>UI/UX Basics</span><span>Adobe Photoshop</span><span>Adobe Illustrator</span><span>CorelDRAW</span><span>On-Page SEO</span><span>Keyword Research</span><span>SEO Analysis</span><span>Content Optimization</span></div></section>
+    <section class="education-section reveal"><div class="section-label">EDUCATION</div><h2>EDUCATION</h2><div class="edu-list"><article><span>2021 – 2025</span><h3>B.Tech Information Technology</h3><p>New Prince Shri Bhavani College Of Engineering and Technology · CGPA 7.66</p></article><article><span>2020 – 2021</span><h3>Higher Secondary Education</h3><p>Nidhi Higher Secondary School · 67%</p></article><article><span>2018 – 2019</span><h3>SSLC</h3><p>Montfort Higher Secondary School · 52%</p></article></div></section>
+    <section id="contact" class="contact-section reveal"><div class="section-label">CONTACT</div><h2>LET’S BUILD SOMETHING CREATIVE</h2><div class="contact-social-row" aria-label="Contact and social links"><a class="social-icon-link" href="https://www.linkedin.com/in/shalini-priya-r-54b2372b1/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="23" height="23" fill="currentColor" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.53 2.79-1.53 2.99 0 3.58 1.97 3.58 4.53v5.25Z"/></svg><span class="social-icon-caption">LinkedIn</span></a><a class="social-icon-link" href="tel:+919840795931" aria-label="Phone" title="Phone" ><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.5 19.5 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 3a2 2 0 0 1-.6 1.7L7.1 10a16 16 0 0 0 6.9 6.9l1.6-1.9a2 2 0 0 1 1.7-.6l3 .5a2 2 0 0 1 1.7 2Z"/></svg><span class="social-icon-caption">Phone</span></a><a class="social-icon-link" href="mailto:shalini22priya@gmail.com" aria-label="Email" title="Email" ><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></svg><span class="social-icon-caption">Email</span></a><a class="social-icon-link" href="https://github.com/shalinipriya46" aria-label="GitHub" title="GitHub" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="23" height="23" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.12c-3.1.67-3.76-1.31-3.76-1.31-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.71-1.49-2.47-.28-5.06-1.24-5.06-5.49 0-1.21.43-2.2 1.14-2.98-.11-.28-.49-1.41.11-2.94 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.6 1.53.22 2.66.11 2.94.71.78 1.14 1.77 1.14 2.98 0 4.26-2.6 5.2-5.08 5.48.4.35.76 1.03.76 2.08v3.1c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z"/></svg><span class="social-icon-caption">GitHub</span></a></div></section>
+  </main>
+  <footer>© 2026 Shalini Priya. R</footer>
+<div class="creative-decoration" aria-hidden="true"><span class="creative-doodle">✿</span><span class="creative-doodle">✦</span><span class="creative-doodle">♡</span><span class="creative-doodle">✳</span></div><div class="pixel-walker" aria-hidden="true"><div class="pixel-character"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 76" aria-hidden="true"><defs><linearGradient id="chamBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b6f3c0"/><stop offset="1" stop-color="#69cdbb"/></linearGradient></defs><g stroke="#468f83" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M20 46 C9 45 5 59 15 64 C24 69 35 62 29 54 C25 49 17 53 20 58" fill="none" stroke="#64c5ac" stroke-width="7"/><path d="M35 52 Q28 61 31 65 M61 52 Q69 61 66 65" fill="none" stroke-width="5"/><path d="M24 36 Q30 20 52 22 Q70 20 77 34 Q89 34 90 44 Q90 52 77 52 L43 55 Q25 55 24 36Z" fill="url(#chamBody)"/><path d="M32 40 Q48 47 65 38" fill="none" stroke="#8fe2c0" stroke-width="4"/><circle cx="73" cy="28" r="12" fill="#a5e8bd"/><circle cx="76" cy="27" r="7" fill="#fff" stroke="none"/><circle cx="78" cy="27" r="3.2" fill="#35465d" stroke="none"/><circle cx="87" cy="44" r="2" fill="#458d80" stroke="none"/><path d="M77 49 Q83 52 88 48" fill="none" stroke-width="1.6"/><circle cx="46" cy="32" r="3" fill="#f9d3e9" stroke="none"/><circle cx="55" cy="43" r="2.6" fill="#f9d3e9" stroke="none"/></g></svg></div><span class="pixel-sparkle">✦</span></div>
+  <script>
+    const hero = document.querySelector('.hero');
+    const heroPhoto = document.getElementById('heroPhoto');
+    const serviceCard = document.getElementById('serviceCard');
+    const available = document.querySelector('.availability');
+    const leftCopy = document.querySelector('.left-copy');
+    const rightCopy = document.querySelector('.right-copy');
+    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+    const lerp = (a, b, p) => a + (b - a) * p;
+    function applyScrollAnimation() {
+      if (window.innerWidth <= 900) return;
+      const vh = window.innerHeight;
+      const heroRect = hero.getBoundingClientRect();
+      const maxScroll = hero.offsetHeight - vh;
+      const raw = clamp(-heroRect.top / maxScroll, 0, 1);
+      const p = clamp(raw / 0.82, 0, 1);
+      const textFade = clamp((p - 0.45) / 0.28, 0, 1);
+      const exitFade = clamp((raw - 0.88) / 0.1, 0, 1);
+      const x = lerp(0, 300, p);
+      const y = lerp(0, 515, p);
+      const rotateY = lerp(0, -78, p);
+      const rotateZ = lerp(0, -4, p);
+      const scale = lerp(1, 0.72, p);
+      heroPhoto.style.transform = `translate3d(${x}px, ${y}px, 0) perspective(1200px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      heroPhoto.style.opacity = 1 - exitFade;
+      leftCopy.style.transform = `translate3d(${lerp(0, -70, p)}px, ${lerp(0, -120, p)}px, 0)`;
+      rightCopy.style.transform = `translate3d(${lerp(0, 70, p)}px, ${lerp(0, -120, p)}px, 0)`;
+      leftCopy.style.opacity = 1 - textFade;
+      rightCopy.style.opacity = 1 - textFade;
+      available.classList.toggle('show', p > 0.08 && exitFade < 0.4);
+      if (serviceCard) {
+        const section = serviceCard.closest('.services');
+        const rect = section.getBoundingClientRect();
+        const sp = clamp((vh - rect.top) / (vh + rect.height * 0.45), 0, 1);
+        const isMobile = window.innerWidth <= 900;
+        if (isMobile) {
+          serviceCard.style.transform = 'none';
+          serviceCard.style.opacity = '1';
+        } else {
+          serviceCard.style.transform = `perspective(1400px) rotateY(${lerp(-82, 0, sp)}deg) rotateZ(${lerp(-2, 0, sp)}deg) scale(${lerp(0.92, 1, sp)})`;
+          serviceCard.style.opacity = lerp(0.65, 1, sp);
+        }
+      }
+    }
+    window.addEventListener('scroll', applyScrollAnimation, { passive: true });
+    window.addEventListener('resize', applyScrollAnimation);
+    applyScrollAnimation();
+    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+    // Walking pixel girl follows scroll progress and faces the direction of travel.
+    const pixelWalker = document.querySelector('.pixel-walker');
+    let lastWalkerScroll = window.scrollY;
+    let walkerIdleTimer;
+    function updatePixelWalker() {
+      if (!pixelWalker || !document.body.classList.contains('pastel-theme')) return;
+      const scrollTop = Math.max(0, window.scrollY);
+      const scrollRange = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      const travel = Math.max(0, innerWidth - pixelWalker.getBoundingClientRect().width - 12);
+      const progress = Math.min(1, scrollTop / scrollRange);
+      pixelWalker.style.transform = `translate3d(${Math.round(progress * travel)}px,0,0)`;
+      const diff = scrollTop - lastWalkerScroll;
+      if (Math.abs(diff) > 1) {
+        pixelWalker.classList.toggle('walk-back', diff < 0);
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) pixelWalker.classList.add('walking');
+        clearTimeout(walkerIdleTimer);
+        walkerIdleTimer = setTimeout(() => pixelWalker.classList.remove('walking'), 170);
+      }
+      lastWalkerScroll = scrollTop;
+    }
+    window.addEventListener('scroll', updatePixelWalker, {passive:true});
+    window.addEventListener('resize', updatePixelWalker);
+
+    const modeButtons = document.querySelectorAll('.bottom-toggle');
+    function setCreativeMode(enabled) {
+      document.body.classList.toggle('pastel-theme', enabled);
+      updatePixelWalker();
+      modeButtons.forEach(button => {
+        button.setAttribute('aria-pressed', String(enabled));
+        button.setAttribute('aria-label', enabled ? 'Switch to professional mode' : 'Switch to graphic designer mode');
+        button.title = enabled ? 'Professional mode' : 'Graphic designer mode';
+      });
+    }
+    modeButtons.forEach(button => button.addEventListener('click', () => {
+      setCreativeMode(!document.body.classList.contains('pastel-theme'));
+    }));
+    setCreativeMode(false);
+
+  </script>
+
+<script>
+(function(){
+  const portraits=document.querySelectorAll('.hero-photo img, .about-static-photo img');
+  portraits.forEach(img=>{img.dataset.professionalSrc=img.getAttribute('src');});
+  function syncPortraits(){
+    const on=document.body.classList.contains('pastel-theme');
+    portraits.forEach(img=>{
+      const target=on?'illustrator.png':img.dataset.professionalSrc;
+      if(img.getAttribute('src')!==target) img.setAttribute('src',target);
+    });
+  }
+  new MutationObserver(syncPortraits).observe(document.body,{attributes:true,attributeFilter:['class']});
+  syncPortraits();
+})();
+</script>
+</body>
+</html>
